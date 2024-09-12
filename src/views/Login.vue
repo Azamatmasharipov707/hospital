@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { msgs, url } from '@/data/vars';
-import axios from 'axios'
 import notif from '@/components/notif.vue'
 export default {
     emits: ['successLogin'],
@@ -32,41 +30,66 @@ export default {
     methods: {
         async postLogin() {
             console.log(this.login, this.password)
+            // if (this.login && this.password) {
+            //     let res = await axios.post(`${url}/auth/login`, {
+            //         login: this.login,
+            //         password: this.password,
+            //     }).catch(e => {
+            //         this.notif = {
+            //             type: 'warning',
+            //             text: msgs[e.response.data]
+            //         }
+            //         setTimeout(() => {
+            //             this.notif = {}
+            //         }, 1200)
+            //     })
+            //     if (res.status == 200) {
+            //         console.log(res.data)
+
+            //         let { token, user } = res.data
+            //         this.$cookies.set('hospital-token', token)
+            //         this.$cookies.set('hospital-user', user)
+
+            //         this.$emit('successLogin')
+            //     }
+            // } else {
+            //     this.notif = {
+            //         type: 'warning',
+            //         text: 'Barcha maydonlarni to`ldiring'
+            //     }
+            //     setTimeout(() => {
+            //         this.notif = {}
+            //     }, 1200)
+            // }
+
             if (this.login && this.password) {
-                let res = await axios.post(`${url}/auth/login`, {
+                this.$store.dispatch('login', {
                     login: this.login,
-                    password: this.password,
-                }).catch(e => {
-                    this.notif = {
-                        type: 'warning',
-                        text: msgs[e.response.data]
-                    }
-                    setTimeout(() => {
-                        this.notif = {}
-                    }, 1200)
+                    password: this.password
                 })
-                if (res.status == 200) {
-                    console.log(res.data)
-
-                    let { token, user } = res.data
-                    this.$cookies.set('hospital-token', token)
-                    this.$cookies.set('hospital-user', user)
-
-                    this.$emit('successLogin')
-                }
             } else {
                 this.notif = {
                     type: 'warning',
-                    text: 'Barcha maydonlarni to`ldiring'
+                    text: msgs[e.response.data]
                 }
                 setTimeout(() => {
                     this.notif = {}
                 }, 1200)
+
             }
         },
+
+      
     },
     computed: {
+        posts() {
+            return this.$store.getters.posts
+        }
     },
+    mounted() {
+        this.$store.dispatch('getPosts')
+        this.$store.dispatch('getAllAlbums')
+    }
 
 }
 </script>
