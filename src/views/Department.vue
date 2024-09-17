@@ -45,25 +45,20 @@
             </div>
         </div>
     </div>
-    <Notif :text="notif.text" :type="notif.type" />
 </template>
 
 <script>
-import axios from 'axios';
-import { url } from '@/data/vars'
-import Notif from '@/components/notif.vue';
-
+import {mapGetters} from 'vuex'
 export default {
-    components: {
-        Notif
-    },
     data: () => ({
         title: '',
         toggle: false,
         notif: {},
         token: '',
-        departments: []
     }),
+    computed: {
+        ...mapGetters(['departments'])
+    },
     methods: {
         async add() {
             if (this.title) {
@@ -96,22 +91,10 @@ export default {
                 }, 1200)
             }
         },
-        async getDepartment() {
-            let res = await axios.get(`${url}/department`, {
-                headers: {
-                    "authorization": `Bearer ${this.token}`
-                }
-            })
-            if (res.status == 200) {
-                this.departments = [...res.data]
-            }
-        }
+       
     },
     mounted() {
-        if (this.$cookies.isKey('hospital-token')) {
-            this.token = this.$cookies.get('hospital-token')
-        }
-        this.getDepartment()
+       this.$store.dispatch('getAllDepartments')
     }
 }
 </script>
