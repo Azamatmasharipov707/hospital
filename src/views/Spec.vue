@@ -9,19 +9,13 @@
                     <th class="p-6 text-left">N</th>
                     <th class="p-6 text-left">Nomi</th>
                     <th class="p-6 text-left">Qabul vaqti</th>
-                    <th class="p-6 text-left"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="department, index of departments" :key="department._id" class="border-b-2">
+                <tr v-for="spec, index of specs" :key="spec._id" class="border-b-2">
                     <td class="px-6 py-4 font-bold">{{ index + 1 }}</td>
-                    <td class="px-6 py-4 font-bold">{{ department.title }}</td>
-                    <td class="px-6 py-4 font-bold">{{ department.createdTime }}</td>
-                    <td class="text-center">
-                        <button @click="remove(department._id)">
-                            x
-                        </button>
-                    </td>
+                    <td class="px-6 py-4 font-bold">{{ spec.title }}</td>
+                    <td class="px-6 py-4 font-bold">{{ spec.createdTime }}</td>
                 </tr>
             </tbody>
         </table>
@@ -34,7 +28,7 @@
     <div :class="toggle ? 'flex' : 'hidden'"
         class="bg-white max-w-[500px] w-full justify-center shadow-myShadow rounded-lg fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 p-10">
         <div class="w-full">
-            <h3 class="text-2xl font-bold text-center">Yangi malumot qo'shish</h3>
+            <h3 class="text-2xl font-bold text-center">Mutaxasislik qo'shish</h3>
             <form class="my-6 w-full">
                 <input type="text" v-model="title" placeholder="Bo'lim"
                     class="outline-none border w-full py-2 px-3 rounded-xl">
@@ -54,8 +48,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import {mapGetters} from 'vuex'
+import {mapActions} from 'vuex'
 export default {
     data: () => ({
         title: '',
@@ -64,34 +58,29 @@ export default {
         token: '',
     }),
     computed: {
-        ...mapGetters(['departments'])
+        ...mapGetters(['specs'])
     },
     methods: {
         ...mapActions([
-            'getAllDepartments',
-            'addDepartment',
-            'deleteDepartment'
+            'getAllSpecs',
+            'addSpec'
         ]),
         async add() {
             if (this.title) {
-                this.addDepartment({ title: this.title })
-                this.clear()
+               this.addSpec({title: this.title})
+               this.clear()
             } else {
-
+               
             }
         },
         clear() {
             this.toggle = false
             this.title = ''
-        },
-        remove(id) {
-            if(confirm(`Qariringiz qatiymi ?`)) {
-                this.deleteDepartment(id)
-            }
         }
+       
     },
     mounted() {
-        this.getAllDepartments()
+       this.getAllSpecs()
     }
 }
 </script>

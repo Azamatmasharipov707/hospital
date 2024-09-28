@@ -32,6 +32,14 @@ export const helpers = {
                 }
                 console.log(e.response)
             })
-        }
+        },
+        async deleteAxios({getters,commit}, payload) {
+            return await axios.delete(`${getters.mainUrl}/${payload}`, {
+                headers: {
+                    'authorization': `Bearer ${getters.token}`
+                }
+            })
+        },
+        
     }
 }

@@ -20,6 +20,10 @@
                     </RouterLink>
                 </ul>
             </nav>
+            <button class="flex items-center gap-x-3 m-3 text-xl font-bold" @click="logout()">
+                <img src="@/assets/img/Logout.svg" alt="" width="30px">
+                Tizimnan chiqish
+            </button>
         </aside>
     </div>
 </template>
@@ -49,12 +53,19 @@
                     icon: new URL('@/assets/img/bosh-sahifa.svg', import.meta.url)
                 },
                 {
-                    link: '/',
-                    title: 'Bemorlar',
+                    link: '/spec',
+                    title: 'Mutaxasislik',
                     icon: new URL('@/assets/img/bosh-sahifa.svg', import.meta.url)
                 }
             ]
-        })
+        }),
+        methods: {
+            logout(){
+                if(confirm(`Qaroringiz qat'iymi ?`)) {
+                    this.$store.dispatch('exit')
+                }
+            }
+        }
     }
 </script>
 
